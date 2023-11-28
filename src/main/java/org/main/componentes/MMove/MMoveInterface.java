@@ -4,7 +4,7 @@ import org.main.Room;
 
 import java.util.List;
 
-public interface MMoveInt {
+public interface MMoveInterface {
     void setRooms(List<Room> rooms);
     void loadRoom(Room room);
 

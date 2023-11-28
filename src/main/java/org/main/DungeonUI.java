@@ -1,10 +1,12 @@
 package org.main;
 
+import org.main.componentes.Jtree.MTree;
+
 import org.main.componentes.Mload.MLoad;
 import org.main.componentes.Mlog.MLog;
 
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,8 +32,9 @@ public class DungeonUI {
     private final Button botonEast = new Button("Este");
     private final Button botonOest = new Button("Oeste");
     private final TextArea roomInfoText = new TextArea();
-
+    MTree mTree = new MTree();
     MLog movesText = new MLog();
+
     private static final TextArea moveText = new TextArea();
     int lineas = 0;
 
@@ -60,14 +63,12 @@ public class DungeonUI {
         JMenuItem menuitemLoad = new JMenuItem("Load");
         JMenuItem menuitemStart = new JMenuItem("Start");
 
+
         menuitemLoad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                int returnValue = fileChooser.showOpenDialog(null);
 
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = fileChooser.getSelectedFile();
+
                     if (treePanel != null) {
                         pos = 0;
                         lineas = 0;
@@ -77,13 +78,14 @@ public class DungeonUI {
                         dungeon = null;
                     }
                     dungeon = readFile();
-                    treePanel = createJTreeFromDungeon(dungeon);
+                    treePanel= mTree.createJTree(dungeon);
+
                     panelTreeScroll.setViewportView(treePanel);
                     botonNorth.setEnabled(false);
                     botonEast.setEnabled(false);
                     botonOest.setEnabled(false);
                     botonSur.setEnabled(false);
-                }
+
             }
         });
 
@@ -111,8 +113,11 @@ public class DungeonUI {
         menuPanel.add(menuBar, BorderLayout.NORTH);
         menuPanel.add(mainpanel, BorderLayout.CENTER);
 
-        mainpanel.add(gamePanel, BorderLayout.EAST);
+
         mainpanel.add(panelTreeScroll, BorderLayout.CENTER);
+
+        mainpanel.add(gamePanel, BorderLayout.EAST);
+
 
         gamePanel.add(roomsPanel, BorderLayout.NORTH);
         gamePanel.add(movesPanel, BorderLayout.CENTER);
@@ -202,38 +207,12 @@ public class DungeonUI {
 
     }
 
-    private static JTree createJTreeFromDungeon(Dungeon dungeon) {
-
-        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Dungeon");
-
-
-        List<Room> rooms = dungeon.getRoom();
-
-
-        for (Room room : rooms) {
-
-            DefaultMutableTreeNode roomNode = new DefaultMutableTreeNode("Room: " + room.id);
-
-            List<Door> doors = room.getDoors();
-            roomNode.add(new DefaultMutableTreeNode(room.description));
-
-            for (Door door : doors) {
-                DefaultMutableTreeNode doorNode = new DefaultMutableTreeNode("Door: " + door.getName() + " ->" + door.getDest());
-                roomNode.add(doorNode);
-            }
-
-
-            rootNode.add(roomNode);
-        }
-
-        JTree jTree = new JTree(rootNode);
-
-        jTree.expandRow(0);
-
-        return jTree;
-    }
-
 }
+
+
+
+
+
 
 
 
