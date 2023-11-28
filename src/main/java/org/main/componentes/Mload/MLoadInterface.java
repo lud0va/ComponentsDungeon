@@ -1,7 +1,7 @@
 package org.main.componentes.Mload;
 
 
-import org.main.Dungeon;
+import Modelo.Dungeon;
 
 public interface MLoadInterface {
     void loadXMLFile();

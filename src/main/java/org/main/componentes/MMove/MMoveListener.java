@@ -1,6 +1,6 @@
 package org.main.componentes.MMove;
 
-import org.main.Room;
+import Modelo.Room;
 
 import java.util.EventListener;
 

@@ -1,8 +1,8 @@
 package org.main.componentes.Jtree;
 
-import org.main.Door;
-import org.main.Dungeon;
-import org.main.Room;
+import Modelo.Door;
+import Modelo.Dungeon;
+import Modelo.Room;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -11,18 +11,18 @@ import java.util.List;
 
 public class MTree extends JScrollPane implements MTreeInterface {
     public JTree createJTree(Dungeon dungeon) {
-        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Mazmorra");
+        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Dungeon");
         List<Room> rooms = dungeon.getRoom();
         for (Room room : rooms) {
-            DefaultMutableTreeNode roomNode = new DefaultMutableTreeNode("Habitación: " + room.getId());
+            DefaultMutableTreeNode roomNode = new DefaultMutableTreeNode("Room: " + room.getId());
             rootNode.add(roomNode);
 
-            DefaultMutableTreeNode descriptionNode = new DefaultMutableTreeNode("Descripción: " + room.getDescription());
+            DefaultMutableTreeNode descriptionNode = new DefaultMutableTreeNode("Description: " + room.getDescription());
             roomNode.add(descriptionNode);
 
-            List<Door> doors = room.getDoors();
+            List<Door> doors = room.getDoorList();
             for (Door door : doors) {
-                DefaultMutableTreeNode doorNode = new DefaultMutableTreeNode("Puerta: " + door.getName() + " a " + door.getDest());
+                DefaultMutableTreeNode doorNode = new DefaultMutableTreeNode("Room: " + door.getName() + " a " + door.getDest());
                 roomNode.add(doorNode);
             }
         }

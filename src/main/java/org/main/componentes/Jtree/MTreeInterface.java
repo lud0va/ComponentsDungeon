@@ -1,6 +1,6 @@
 package org.main.componentes.Jtree;
 
-import org.main.Dungeon;
+import Modelo.Dungeon;
 
 import javax.swing.*;
 

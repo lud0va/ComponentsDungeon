@@ -1,7 +1,11 @@
 package org.main;
 
+import Modelo.Dungeon;
+import Modelo.Room;
 import org.main.componentes.Jtree.MTree;
 
+import org.main.componentes.MMove.MMove;
+import org.main.componentes.MMove.MMoveListener;
 import org.main.componentes.Mload.MLoad;
 import org.main.componentes.Mlog.MLog;
 
@@ -10,11 +14,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class DungeonUI {
     private static JTree treePanel;
@@ -27,14 +26,12 @@ public class DungeonUI {
     private JPanel roomsPanel;
     private JPanel movesPanel;
     private JScrollPane panelTreeScroll;
-    private final Button botonNorth = new Button("Norte");
-    private final Button botonSur = new Button("Sur");
-    private final Button botonEast = new Button("Este");
-    private final Button botonOest = new Button("Oeste");
+
     private final TextArea roomInfoText = new TextArea();
     MTree mTree = new MTree();
     MLog movesText = new MLog();
 
+    MMove move;
     private static final TextArea moveText = new TextArea();
     int lineas = 0;
 
@@ -50,13 +47,16 @@ public class DungeonUI {
 
         // Cambiar colores de los paneles y tamaños
 
+        movesText.setPreferredSize(new Dimension(300, 300));
+        roomInfoText.setPreferredSize(new Dimension(300, 350));
 
-        gamePanel.setBackground(new Color(96, 108, 56));
         roomsPanel.setBackground(new Color(40, 54, 24));
         movesPanel.setBackground(new Color(143, 140, 140));
         panelTreeScroll.setBackground(new Color(155, 150, 150));
         menuPanel.setBounds(40, 80, 900, 500);
         mainpanel.setBackground(Color.white);
+        mainpanel.setBounds(40, 80, 900, 490);
+        gamePanel.setBounds(40, 80, 450, 490);
 
         JMenuBar menuBar = new JMenuBar();
         JMenu opciones = new JMenu("Opciones");
@@ -81,10 +81,7 @@ public class DungeonUI {
                     treePanel= mTree.createJTree(dungeon);
 
                     panelTreeScroll.setViewportView(treePanel);
-                    botonNorth.setEnabled(false);
-                    botonEast.setEnabled(false);
-                    botonOest.setEnabled(false);
-                    botonSur.setEnabled(false);
+
 
             }
         });
@@ -93,10 +90,7 @@ public class DungeonUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    botonNorth.setEnabled(true);
-                    botonEast.setEnabled(true);
-                    botonOest.setEnabled(true);
-                    botonSur.setEnabled(true);
+
                     cargarHabitacion();
                     movesText.clearLog();
                 } catch (NullPointerException n) {
@@ -115,28 +109,28 @@ public class DungeonUI {
 
 
         mainpanel.add(panelTreeScroll, BorderLayout.CENTER);
+        MMoveListener listener=new MMoveListener() {
+            @Override
+            public void roomUpdated(Room room) {
+                movesText.addLogMessage("Has ido a la habitacion"+ room.getId()+"\n");
+            }
+        };
+         move=new MMove(listener);
 
         mainpanel.add(gamePanel, BorderLayout.EAST);
 
+        gamePanel.add(movesPanel, BorderLayout.SOUTH);
+        gamePanel.add(move, BorderLayout.CENTER);
 
-        gamePanel.add(roomsPanel, BorderLayout.NORTH);
-        gamePanel.add(movesPanel, BorderLayout.CENTER);
 
         movesPanel.add(movesText);
 
-        roomsPanel.add(roomInfoText, BorderLayout.CENTER);
-        roomsPanel.add(botonNorth, BorderLayout.NORTH);
-        roomsPanel.add(botonSur, BorderLayout.SOUTH);
-        roomsPanel.add(botonEast, BorderLayout.EAST);
-        roomsPanel.add(botonOest, BorderLayout.WEST);
-        botonNorth.addActionListener(clickBtn(botonNorth));
-        botonEast.addActionListener(clickBtn(botonEast));
-        botonOest.addActionListener(clickBtn(botonOest));
-        botonSur.addActionListener(clickBtn(botonSur));
-        botonNorth.setEnabled(false);
-        botonEast.setEnabled(false);
-        botonOest.setEnabled(false);
-        botonSur.setEnabled(false);
+        roomsPanel.add(roomInfoText);
+
+
+
+
+
 
         f.add(menuPanel);
         f.setSize(1000, 1000);
@@ -146,56 +140,21 @@ public class DungeonUI {
 
 
 
-    public ActionListener clickBtn(Button btn) {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for (Door door : dungeon.getRoom().get(pos).getDoors()) {
-                    if (door.getName().equals(btn.getLabel())) {
-                        List<Room> room = new ArrayList<>();
-                        room.addAll(dungeon.getRoom().stream().filter(dun -> dun.getId().equals(door.getDest())).toList());
-                        int n = dungeon.getRoom().indexOf(room.get(0));
-                        List<String> dests = new ArrayList<>();
-                        for (Door doorss : dungeon.getRoom().get(n).getDoors()) {
-                            dests.add(doorss.getDest());
-                        }
-                        if (dests.contains(dungeon.getRoom().get(pos).getId())) {
-                            pos = n;
-                            movesText.addLogMessage(" Has ido al " + door.getName() + "\n ");
-                            lineas++;
-                            cargarHabitacion();
-
-                        } else {
-                            movesText.addLogMessage("Esa habitación es extraña, no tiene puerta de vuelta asi que será mejor que no entres" + "\n ");
-
-                        }
-                    }
-                }
-
-            }
-        };
-    }
 
 
     public static void main(String args[]) {
 
         new DungeonUI();
+
     }
 
     public void cargarHabitacion() {
-        roomInfoText.setText(dungeon.getRoom().get(pos).description);
+        roomInfoText.setText(dungeon.getRoom().get(pos).getDescription());
+        move.setRooms(dungeon.getRoom());
+        move.loadRoom(dungeon.getRoom().get(pos));
 
-        Set<String> availableDoors = new HashSet<>();
 
-        for (Door door : dungeon.getRoom().get(pos).getDoors()) {
-            availableDoors.add(door.getName());
 
-        }
-
-        botonNorth.setEnabled(availableDoors.contains("Norte"));
-        botonEast.setEnabled(availableDoors.contains("Este"));
-        botonSur.setEnabled(availableDoors.contains("Sur"));
-        botonOest.setEnabled(availableDoors.contains("Oeste"));
 
     }
 

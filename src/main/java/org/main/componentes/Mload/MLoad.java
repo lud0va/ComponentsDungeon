@@ -2,9 +2,9 @@ package org.main.componentes.Mload;
 
 
 
-import org.main.Door;
-import org.main.Dungeon;
-import org.main.Room;
+import Modelo.Door;
+import Modelo.Dungeon;
+import Modelo.Room;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -61,7 +61,7 @@ public class MLoad implements MLoadInterface {
                                 doors.add(door);
                             }
                         }
-                        room.setDoors(doors);
+                        room.setDoorList(doors);
                         rooms.add(room);
                     }
                 }

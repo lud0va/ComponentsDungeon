@@ -4,7 +4,7 @@ package org.main.componentes.MMove;
 
 
 
-import org.main.Room;
+import Modelo.Room;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,6 +33,7 @@ public class MMove extends JPanel implements MMoveInterface {
         actualRoomDescription.setHorizontalAlignment(SwingConstants.CENTER);
         actualRoomDescription.setVerticalAlignment(SwingConstants.CENTER);
 
+
         north = new JButton("North");
         north.setEnabled(false);
         south = new JButton("South");
@@ -47,7 +48,7 @@ public class MMove extends JPanel implements MMoveInterface {
         add(south, BorderLayout.SOUTH);
         add(weast, BorderLayout.WEST);
         add(east, BorderLayout.EAST);
-        add(actualRoomDescription, BorderLayout.CENTER);
+        add(actualRoomDescription);
     }
 
 
@@ -66,14 +67,14 @@ public class MMove extends JPanel implements MMoveInterface {
 
         actualRoomDescription.setText(room.getDescription());
 
-        room.getDoors().forEach(door -> {
+        room.getDoorList().forEach(door -> {
             if (door.getName().equalsIgnoreCase("Norte")) {
                 north.setEnabled(true);
                 north.removeActionListener(north.getActionListeners().length > 0 ? north.getActionListeners()[0] : null);
                 north.addActionListener(e -> {
                     Room nextRoom = rooms.stream()
                             .filter(r -> r.getId()
-                                    .equalsIgnoreCase(room.getDoors().stream().filter(d -> d.getName().equalsIgnoreCase("Norte"))
+                                    .equalsIgnoreCase(room.getDoorList().stream().filter(d -> d.getName().equalsIgnoreCase("Norte"))
                                             .findFirst().get()
                                             .getDest())
                             ).findFirst().get();
@@ -86,7 +87,7 @@ public class MMove extends JPanel implements MMoveInterface {
                 south.addActionListener(e -> {
                     Room nextRoom = rooms.stream()
                             .filter(r -> r.getId()
-                                    .equalsIgnoreCase(room.getDoors().stream().filter(d -> d.getName().equalsIgnoreCase("Sur"))
+                                    .equalsIgnoreCase(room.getDoorList().stream().filter(d -> d.getName().equalsIgnoreCase("Sur"))
                                             .findFirst().get()
                                             .getDest())
                             ).findFirst().get();
@@ -99,7 +100,7 @@ public class MMove extends JPanel implements MMoveInterface {
                 weast.addActionListener(e -> {
                     Room nextRoom = rooms.stream()
                             .filter(r -> r.getId()
-                                    .equalsIgnoreCase(room.getDoors().stream().filter(d -> d.getName().equalsIgnoreCase("Oeste"))
+                                    .equalsIgnoreCase(room.getDoorList().stream().filter(d -> d.getName().equalsIgnoreCase("Oeste"))
                                             .findFirst().get()
                                             .getDest())
                             ).findFirst().get();
@@ -112,7 +113,7 @@ public class MMove extends JPanel implements MMoveInterface {
                 east.addActionListener(e -> {
                     Room nextRoom = rooms.stream()
                             .filter(r -> r.getId()
-                                    .equalsIgnoreCase(room.getDoors().stream().filter(d -> d.getName().equalsIgnoreCase("Este"))
+                                    .equalsIgnoreCase(room.getDoorList().stream().filter(d -> d.getName().equalsIgnoreCase("Este"))
                                             .findFirst().get()
                                             .getDest())
                             ).findFirst().get();

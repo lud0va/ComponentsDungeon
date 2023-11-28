@@ -1,11 +1,9 @@
-package org.main;
+package Modelo;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 @XmlRootElement(name="room")
@@ -13,8 +11,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
+@Getter
 public class Room {
     String id;
-    List<Door>doors;
+    List<Door> doorList;
     String description;
 }
