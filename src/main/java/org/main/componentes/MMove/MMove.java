@@ -1,9 +1,13 @@
 package org.main.componentes.MMove;
 
+
+
+
+
 import org.main.Room;
 
 import javax.swing.*;
-import java.util.List;
+import java.awt.*;
 
 public class MMove extends JPanel implements MMoveInterface {
 
@@ -45,6 +49,8 @@ public class MMove extends JPanel implements MMoveInterface {
         add(east, BorderLayout.EAST);
         add(actualRoomDescription, BorderLayout.CENTER);
     }
+
+
 
     @Override
     public void setRooms(java.util.List<Room> rooms) {
@@ -117,3 +123,5 @@ public class MMove extends JPanel implements MMoveInterface {
         });
     }
 }
+
+
