@@ -2,12 +2,11 @@ package org.main;
 
 import Modelo.Dungeon;
 import Modelo.Room;
-import org.main.componentes.Jtree.MTree;
-
-import org.main.componentes.MMove.MMove;
-import org.main.componentes.MMove.MMoveListener;
-import org.main.componentes.Mload.MLoad;
-import org.main.componentes.Mlog.MLog;
+import log.MLog;
+import org.example.Jtree.MTree;
+import org.example.MMove;
+import org.example.MMoveListener;
+import org.example.Mload.MLoad;
 
 import javax.swing.*;
 
@@ -44,8 +43,6 @@ public class DungeonUI {
         movesPanel = new JPanel();
         panelTreeScroll = new JScrollPane();
         treePanel = new JTree();
-
-        // Cambiar colores de los paneles y tamaños
 
         movesText.setPreferredSize(new Dimension(300, 300));
         roomInfoText.setPreferredSize(new Dimension(300, 350));
@@ -109,13 +106,14 @@ public class DungeonUI {
 
 
         mainpanel.add(panelTreeScroll, BorderLayout.CENTER);
-        MMoveListener listener=new MMoveListener() {
+        MMoveListener listener = new MMoveListener() {
             @Override
             public void roomUpdated(Room room) {
-                movesText.addLogMessage("Has ido a la habitacion"+ room.getId()+"\n");
+                movesText.addLogMessage("Has ido a la habitacion" + room.getId() + "\n");
             }
         };
-         move=new MMove(listener);
+
+        move = new MMove(listener);
 
         mainpanel.add(gamePanel, BorderLayout.EAST);
 
@@ -126,10 +124,6 @@ public class DungeonUI {
         movesPanel.add(movesText);
 
         roomsPanel.add(roomInfoText);
-
-
-
-
 
 
         f.add(menuPanel);

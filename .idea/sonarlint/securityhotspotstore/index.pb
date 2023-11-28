@@ -1,14 +1,8 @@
 
 U
 %src/main/java/org/main/DungeonUI.java,6\0\60d64c013eb6d35c723e786099ab8728b251fb12
-P
- src/main/java/org/main/Room.java,3\0\30b7e073712eb64b9657a95d5ca1bb3e0ab1ca4c
-S
-#src/main/java/org/main/Dungeon.java,f\6\f6b12044ce9ad5d8c38ddbb645467f420ac3eb63
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
-P
- src/main/java/org/main/Door.java,c\e\ce511227870dc9d6835aa1b2be9c00ee42cb41a8
 T
 $src/main/resources/xmls/mazmorra.xml,a\5\a53747ed5c694b462089978c859353279d1370de
 l
@@ -36,8 +30,6 @@ S
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
 w
 G.idea/sonarlint/issuestore/3/0/30b7e073712eb64b9657a95d5ca1bb3e0ab1ca4c,4\2\42925dc83559e9aba1440cddd488b868462397f8
-f
-6src/main/java/org/main/componentes/MMove/MMoveInt.java,e\6\e60facceff7d03c80a16b3eb874f7adf70dc8578
 w
 G.idea/sonarlint/issuestore/4/4/442292b8a7efeabbe4cc176709b833b1792140ec,8\6\863e0292fd7e9b3e74dafd6cc01f73ba76346482
 c
